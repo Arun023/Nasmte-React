@@ -3,13 +3,20 @@ const ele = document.createElement("h1");
 ele.innerHTML = "Hello World";
 root.appendChild(ele);
 
-const heading = React.createElement("h1", { id: "title" }, "Heading1");
+const heading = React.createElement(
+  "h1",
+  {
+    id: "title",
+  },
+
+  "Heading1"
+);
 const heading2 = React.createElement(
   "h2",
   {
     id: "title",
   },
-  "Heading 2"
+  "Heading 4"
 );
 
 const container = React.createElement(
