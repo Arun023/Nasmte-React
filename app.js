@@ -1,39 +1,23 @@
-const root = document.getElementById("root");
-const ele = document.createElement("h1");
-ele.innerHTML = "Hello World";
-root.appendChild(ele);
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const heading = React.createElement(
-  "h1",
-  {
-    id: "title",
-  },
+const Title = ()=> (
+  <h1>Nasmte React</h1>
+)
 
-  "Heading1"
-);
-const heading2 = React.createElement(
-  "h2",
-  {
-    id: "title",
-  },
-  "Heading 4"
+const Container = ()=> (
+  <header style={{display:"flex" , justifyContent:"space-between"}}>
+    <div style={{width:"100px" ,height:"100px"}}> <img style={{objectFit:"contain" ,width:"100%",borderRadius:"50%"}} src="https://randomuser.me/api/portraits/women/34.jpg"/></div>
+    <div style={{width:"100px" ,height:"100px"}}>
+    <input type="search"/>
+    </div>
+    <div style={{width:"100px" ,height:"100px"}}>
+    <img src="https://randomuser.me/api/portraits/men/72.jpg" style={{objectFit:"contain" ,width:"100%"}}/>
+    </div>
+  </header>
 );
 
-const container = React.createElement(
-  "div",
-  {
-    id: "container",
-  },
-  [heading, heading2]
-);
 
 const root1 = ReactDOM.createRoot(document.getElementById("root1"));
 
-root1.render(container);
-
-console.log("Hello world");
-console.log("Hello world");
-console.log("Hello world");
-console.log("Hello world");
-console.log("Hello world");
-console.log("Hello world");
+root1.render(<Container/>);   
