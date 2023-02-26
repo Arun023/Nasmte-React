@@ -30,3 +30,10 @@ const container = React.createElement(
 const root1 = ReactDOM.createRoot(document.getElementById("root1"));
 
 root1.render(container);
+
+console.log("Hello world");
+console.log("Hello world");
+console.log("Hello world");
+console.log("Hello world");
+console.log("Hello world");
+console.log("Hello world");
