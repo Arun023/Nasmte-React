@@ -1,5 +1,7 @@
 import React from "react";
+import Skeleton from "react-loading-skeleton";
 const About = () => {
+  console.log("Hello");
   return (
     <div>
       <h2>About Us</h2>

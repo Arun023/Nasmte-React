@@ -2,33 +2,24 @@ import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { CardDetails } from "../config";
 import Shimmer from "./Shimmer";
-
 const Body = () => {
-  const [searchText, setSearchText] = useState("");
   const [RestaurantList, setRestaurantList] = useState([]);
-  const [filteredRestaurantList, setFilteredRestaurantList] = useState([]);
   const [isFetch, setIsFetch] = useState(true);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     GetResturants();
   }, []);
 
-  const FilterData = (search, List) =>
-    (Result = List.filter((res) =>
-      res.info.name.toLowerCase().includes(search.toLowerCase())
-    ));
-
   const GetResturants = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.258913&lng=72.974479&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7040592&lng=77.10249019999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data?.json();
-    console.log(json?.data);
+    console.log(json?.data?.cards[0]?.card?.card);
+    setTitle(json?.data?.cards[1]?.card?.card?.header);
     setRestaurantList(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setFilteredRestaurantList(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setIsFetch(false);
   };
@@ -37,31 +28,15 @@ const Body = () => {
 
   return (
     <>
-      <div className="search__functionality">
-        <input
-          type="text"
-          className="search__input"
-          placeholder="Search For Restaurant"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <button
-          className="search__btn"
-          onClick={() => {
-            const FilteredData = FilterData(searchText, RestaurantList);
-            setFilteredRestaurantList(FilteredData);
-          }}>
-          Search
-        </button>
-      </div>
+      <div className="mt-5 text-2xl text-center mb-5">{title.title}</div>
       {RestaurantList?.length === 0 ? (
         <Shimmer />
       ) : (
-        <div className="card__body">
-          {filteredRestaurantList?.map((res) => {
+        <div className="flex flex-wrap items-center justify-center gap-10">
+          {RestaurantList?.map((res) => {
             return <RestaurantCard data={{ ...res.info }} key={res.info.id} />;
           })}
-          {filteredRestaurantList?.length === 0 && <h2>No Restaurant Found</h2>}
+          {RestaurantList?.length === 0 && <h2>No Restaurant Found</h2>}
         </div>
       )}
     </>

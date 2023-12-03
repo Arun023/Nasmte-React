@@ -1,18 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-.header {
+/* .header {
   display: flex;
   justify-content: space-between;
-  margin: 10px;
-  border: 1px solid black;
   align-items: center;
   position: sticky;
   top: 0px;
   background-color: #fff;
-}
+} */
 
 .nav-items > ul {
   list-style-type: none;
@@ -21,10 +22,10 @@
 .nav-items > ul > li,.nav-items > ul > a {
   padding: 10px;
 }
-.logo {
+/* .logo {
   width: 100px;
   object-fit: contain;
-}
+} */
 
 .card__body {
   display: flex;
@@ -38,6 +39,8 @@
   border: 1px solid black;
   padding: 5px 10px;
   margin: 5px 10px;
+  color: black !important;
+  text-decoration: none;
 }
 .card img {
   width: 100%;
@@ -67,4 +70,8 @@
   100% {
     opacity: 0.6;
   }
+}
+
+.coupon__background {
+ background:  linear-gradient(rgba(27, 30, 36, 0) 0%, rgb(27, 30, 36) 84.21%);
 }
