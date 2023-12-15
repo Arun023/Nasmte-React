@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { IMG_CDN_URL } from "../config";
 import Star from "./../../assets/star.svg";
 const RestaurantCard = ({ data }) => {
+  const [searchParams] = useSearchParams();
   const {
     id,
     name,
@@ -12,9 +13,14 @@ const RestaurantCard = ({ data }) => {
     areaName,
     aggregatedDiscountInfoV3,
   } = data;
+  const latitude = searchParams.get("latitude");
+  const langitude = searchParams.get("langitude");
+  console.log(langitude, latitude);
   return (
     <Link
-      to={`/restaurant/${id}`}
+      to={`/restaurant/${id}${latitude ? "/" : ""}${latitude ? latitude : ""}${
+        langitude ? "/" : ""
+      }${langitude ? langitude : ""}`}
       className="flex flex-col relative hover:scale-90 duration-200">
       <img
         src={`${IMG_CDN_URL}/${cloudinaryImageId}`}
