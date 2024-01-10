@@ -4,39 +4,15 @@ import { IMG_CDN_URL } from "../config";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { HiOutlineCurrencyRupee } from "react-icons/hi2";
 import { IoStar } from "react-icons/io5";
+import { useFetch } from "../utils/useFetch";
 const RestaurantMenu = () => {
   const { id, latitude, langitude } = useParams();
-  const [OfferData, setOfferData] = useState([]);
-  const [Data, setData] = useState([]);
-
-  useEffect(() => {}, [latitude, langitude]);
-  const GetRestaurantDetails = async ({ lat, lang }) => {
-    const data = await fetch(
-      `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lang}&restaurantId=${id}&catalog_qa=undefined&submitAction=ENTER`
-    );
-    // https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.2475952&lng=73.0021534&restaurantId=84713&catalog_qa=undefined&submitAction=ENTER
-    const json = await data.json();
-    console.log(json?.data?.cards);
-    setData(json?.data?.cards[0]?.card?.card);
-    setOfferData(json?.data?.cards?.[1]?.card?.card);
-  };
-  useEffect(() => {
-    const err = [undefined, "undefined", "", false, null, "null"];
-    if (!err.includes(latitude) && !err.includes(langitude)) {
-      GetRestaurantDetails({ lat: latitude, lang: langitude });
-    } else {
-      GetRestaurantDetails({ lat: "26.263863", lang: "73.008957" });
-    }
-  }, []);
-
-  const Multiply = (arg) => (num) => (number) => num * arg * number;
-  console.log(Multiply(8)(3)(2), "asdasd");
-
-  // cuisines,name,areaName,totalRatingsString,avgRatingString,sla.lastMileTravelString
-
+  const restData = useFetch(id, latitude, langitude);
+  const Data = restData?.[0]?.card?.card;
+  const OfferData = restData?.[1]?.card?.card;
   return (
     <div className="max-w-4xl px-md-0 px-10 mx-auto my-20 flex flex-col gap-5">
-      {Data.length !== 0 && (
+      {Data !== undefined && (
         <>
           <div className="flex justify-between flex-wrap">
             <div>

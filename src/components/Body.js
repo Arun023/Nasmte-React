@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { isNewlyOpen } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import JsonList from "./../../in.json";
 import {
@@ -10,34 +10,15 @@ import {
 } from "react-router-dom";
 import Slider from "./Slider";
 import Apk from "./Apk";
+import { useFetchRestaurant, useOnlineStatus } from "../utils/useFetch";
 const Body = () => {
-  const [RestaurantList, setRestaurantList] = useState([]);
-  const [coursel, setCoursel] = useState([]);
-  const [courselBanner, setCourselBanner] = useState([]);
-  const [searchParams] = useSearchParams();
   const [isFetch, setIsFetch] = useState(true);
-  const [data, setData] = useState([]);
+  const status = useOnlineStatus();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const GetResturants = async ({ lat, lng }) => {
-    const data = await fetch(
-      `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
-    );
-    // https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING
-    const json = await data?.json();
-    console.log(json?.data);
-    console.log(json?.data?.cards);
-    setData(json?.data?.cards);
-    setCoursel(json?.data?.cards[1]?.card?.card);
-    setCourselBanner(json?.data?.cards[0]?.card?.card);
-    setRestaurantList(
-      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-    setIsFetch(false);
-  };
   const FetchLocation = (event) => {
     const data = JSON.parse(event.target.value);
-
     navigate({
       search: `?${createSearchParams({
         latitude: data.lat,
@@ -47,22 +28,28 @@ const Body = () => {
   };
   const latitude = searchParams.get("latitude");
   const langitude = searchParams.get("langitude");
-  useEffect(() => {
-    const err = [undefined, "undefined", "", false, null, "null"];
-    if (!err.includes(latitude) && !err.includes(langitude)) {
-      GetResturants({ lat: latitude, lng: langitude });
-    } else if (latitude == undefined && langitude == undefined) {
-      GetResturants({ lat: "26.263863", lng: "73.008957" });
-    }
-  }, [latitude, langitude]);
+  const restData = useFetchRestaurant({
+    latitude,
+    langitude,
+    setIsFetch: setIsFetch,
+  });
+  const data = restData ? restData : [];
+  const coursel = restData?.[1]?.card?.card;
+  const courselBanner = restData?.[0]?.card?.card;
+  const RestaurantList =
+    restData?.[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
 
-  // if (!RestaurantList) return <h2>No Data Avaiable</h2>;
+  if (!RestaurantList) return <Shimmer />;
   const apkData = data?.find(
     ({ card }) => card?.card?.id === "app_install_links"
   );
   const { title, iosAppImage, androidAppImage, androidAppLink, iosAppLink } =
     apkData?.card?.card || {};
 
+  if (status === false)
+    return <div className="text-2xl text-center my-40">💀 You Are OFFLINE</div>;
+
+  const NewlyOpenRestaurant = isNewlyOpen(RestaurantCard);
   return (
     <div className="md:mx-16">
       <div className="mt-5 text-center mb-5 flex flex-wrap items-center justify-center">
@@ -95,7 +82,7 @@ const Body = () => {
         style={`w-full h-60`}
       />
       <div className="text-2xl font-bold mt-5 mb-5">
-        {data?.[2]?.card?.card?.header?.title}
+        {data?.[1]?.card?.card?.header?.title}
       </div>
       {RestaurantList?.length === 0 || isFetch ? (
         <div className="flex items-center  justify-center">
@@ -105,7 +92,11 @@ const Body = () => {
         // <div className="flex flex-wrap items-center justify-center gap-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-10">
           {RestaurantList?.map((res) => {
-            return <RestaurantCard data={{ ...res.info }} key={res.info.id} />;
+            return res.info?.veg ? (
+              <NewlyOpenRestaurant data={{ ...res.info }} key={res.info.id} />
+            ) : (
+              <RestaurantCard data={{ ...res.info }} key={res.info.id} />
+            );
           })}
           {/* <Sl ider slider={RestaurantList} style={`w-32 h-32`} /> */}
           {RestaurantList?.length === 0 && <h2>No Restaurant Found</h2>}

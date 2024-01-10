@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import RestaurantCard from "./RestaurantCard";
 import { FaSearch } from "react-icons/fa";
+import { FilterData } from "../utils/utils";
 
 const Search = () => {
   const [filteredRestaurantList, setFilteredRestaurantList] = useState([]);
@@ -9,10 +10,6 @@ const Search = () => {
   const [isFetch, setIsFetch] = useState(true);
   const [search, setSearch] = useState("");
 
-  const FilterData = (search, List) =>
-    (Result = List.filter((res) =>
-      res.info.name.toLowerCase().includes(search.toLowerCase())
-    ));
   const GetResturants = async () => {
     const data = await fetch(
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7040592&lng=77.10249019999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
@@ -22,9 +19,9 @@ const Search = () => {
     setRestaurantList(
       json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
-    // setFilteredRestaurantList(
-    //   json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    // );
+    setFilteredRestaurantList(
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
     setIsFetch(false);
   };
 

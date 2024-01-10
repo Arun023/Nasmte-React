@@ -39,7 +39,6 @@ const Slider = ({ slider, style }) => {
     };
   });
 
-  console.log({ slidesContainerRef, slideRef, slideWidths });
   return (
     <>
       <div className="flex items-end justify-end">

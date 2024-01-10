@@ -1,6 +1,6 @@
 import SwiggySVG from "./../../assets/swiggy-1white.svg";
 const Footer = () => (
-  <footer className="bg-gray-950 text-white px-64 pt-12 pb-20 mt-20 flex gap-32">
+  <footer className="bg-gray-950 text-white px-10 py-10 md:px-64 md:pt-12 md:pb-20 md:mt-20 flex flex-wrap gap-32">
     <div className="flex gap-3 flex-col">
       <div className="flex gap-3">
         <img src={SwiggySVG} className="w-6" />

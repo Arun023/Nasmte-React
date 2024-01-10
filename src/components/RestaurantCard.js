@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { IMG_CDN_URL } from "../config";
-import Star from "./../../assets/star.svg";
+import Star from "./../../assets/star1.svg";
 const RestaurantCard = ({ data }) => {
   const [searchParams] = useSearchParams();
   const {
@@ -15,7 +15,7 @@ const RestaurantCard = ({ data }) => {
   } = data;
   const latitude = searchParams.get("latitude");
   const langitude = searchParams.get("langitude");
-  console.log(langitude, latitude);
+
   return (
     <Link
       to={`/restaurant/${id}${latitude ? "/" : ""}${latitude ? latitude : ""}${
@@ -48,11 +48,22 @@ const RestaurantCard = ({ data }) => {
         </div>
       </div>
       <div className="font-light text-gray-700">
-        {cuisines.slice(0, 4).join(", ")}
+        {cuisines.slice(0, 3).join(", ")}
       </div>
-      <div className="font-light text-gray-700">{areaName}</div>
+      <div className="font-light text-gray-700">{areaName.slice(0, 31)}</div>
     </Link>
   );
+};
+
+export const isNewlyOpen = (RestaurantCard) => {
+  return ({ data }) => {
+    return (
+      <div>
+        <span>Veg</span>
+        <RestaurantCard data={data} />
+      </div>
+    );
+  };
 };
 
 export default RestaurantCard;

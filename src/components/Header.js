@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "./../../assets/swiggy-1.svg";
 import { Link } from "react-router-dom";
 import { IMG_CDN_URL } from "../config";
@@ -8,6 +8,7 @@ import { GrContactInfo } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";
+import UserContext from "../utils/UserContext";
 const Title = () => (
   <Link to="/">
     <img src={Logo} alt="Logo" className="w-8 object-cover" />
@@ -19,7 +20,8 @@ const Header = () => {
   const [mobileView, setMobileView] = useState(false);
   const LoggedUser = () => setLogged(!Logged);
 
-  console.log(mobileView);
+  const { name, email } = useContext(UserContext);
+  console.log({ name, email });
   return (
     <>
       <header className="flex shadow-xl py-5 sticky z-10 top-0 bg-slate-100 px-24 justify-between items-center">
@@ -61,11 +63,11 @@ const Header = () => {
 
       <div className="relative z-50">
         <aside
-          class={`fixed left-0 bottom-0-0 flex-shrink-0 w-64 ${
+          className={`fixed left-0 bottom-0-0 flex-shrink-0 w-64 ${
             mobileView ? "flex " : "fixed -ml-64"
           } flex-col transition-all duration-500`}>
-          <div class="bg-gray-900"></div>
-          <nav class="h-screen flex flex-col bg-white shadow-xl py-5 px-8 gap-5">
+          <div className="bg-gray-900"></div>
+          <nav className="h-screen flex flex-col bg-white shadow-xl py-5 px-8 gap-5">
             <Link onClick={() => setMobileView(!mobileView)} to="/">
               Search
             </Link>
