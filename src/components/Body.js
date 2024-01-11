@@ -16,7 +16,13 @@ const Body = () => {
   const status = useOnlineStatus();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
+  const latitude = searchParams.get("latitude");
+  const langitude = searchParams.get("langitude");
+  const restData = useFetchRestaurant({
+    latitude,
+    langitude,
+    setIsFetch: setIsFetch,
+  });
   const FetchLocation = (event) => {
     const data = JSON.parse(event.target.value);
     navigate({
@@ -26,30 +32,26 @@ const Body = () => {
       })}`,
     });
   };
-  const latitude = searchParams.get("latitude");
-  const langitude = searchParams.get("langitude");
-  const restData = useFetchRestaurant({
-    latitude,
-    langitude,
-    setIsFetch: setIsFetch,
-  });
+  const NewlyOpenRestaurant = isNewlyOpen(RestaurantCard);
   const data = restData ? restData : [];
   const coursel = restData?.[1]?.card?.card;
   const courselBanner = restData?.[0]?.card?.card;
-  const RestaurantList =
-    restData?.[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+  const RestaurantChain =
+    restData?.[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
 
-  if (!RestaurantList) return <Shimmer />;
+  const RestaurantOnline =
+    data[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
   const apkData = data?.find(
     ({ card }) => card?.card?.id === "app_install_links"
   );
   const { title, iosAppImage, androidAppImage, androidAppLink, iosAppLink } =
     apkData?.card?.card || {};
 
+  if (!RestaurantChain) return <Shimmer />;
+
   if (status === false)
     return <div className="text-2xl text-center my-40">💀 You Are OFFLINE</div>;
 
-  const NewlyOpenRestaurant = isNewlyOpen(RestaurantCard);
   return (
     <div className="md:mx-16">
       <div className="mt-5 text-center mb-5 flex flex-wrap items-center justify-center">
@@ -84,22 +86,22 @@ const Body = () => {
       <div className="text-2xl font-bold mt-5 mb-5">
         {data?.[1]?.card?.card?.header?.title}
       </div>
-      {RestaurantList?.length === 0 || isFetch ? (
+      {RestaurantChain?.length === 0 || isFetch ? (
         <div className="flex items-center  justify-center">
           <Shimmer />
         </div>
       ) : (
         // <div className="flex flex-wrap items-center justify-center gap-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-10">
-          {RestaurantList?.map((res) => {
+          {RestaurantChain?.map((res) => {
             return res.info?.veg ? (
               <NewlyOpenRestaurant data={{ ...res.info }} key={res.info.id} />
             ) : (
               <RestaurantCard data={{ ...res.info }} key={res.info.id} />
             );
           })}
-          {/* <Sl ider slider={RestaurantList} style={`w-32 h-32`} /> */}
-          {RestaurantList?.length === 0 && <h2>No Restaurant Found</h2>}
+          {/* <Sl ider slider={RestaurantChain} style={`w-32 h-32`} /> */}
+          {RestaurantChain?.length === 0 && <h2>No Restaurant Found</h2>}
         </div>
       )}
       <div className="text-2xl font-bold mt-5 mb-5">
@@ -107,14 +109,16 @@ const Body = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-10">
-        {data[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants?.map(
-          (res) => {
-            return <RestaurantCard data={{ ...res.info }} key={res.info.id} />;
-          }
-        )}
-        {/* <Sl ider slider={RestaurantList} style={`w-32 h-32`} /> */}
-        {data[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-          ?.length === 0 && <h2>No Restaurant Found</h2>}
+        {RestaurantOnline?.map((res) => {
+          return (
+            <div key={res.info.id}>
+              Hello
+              <RestaurantCard data={{ ...res.info }} />
+            </div>
+          );
+        })}
+        {/* <Sl ider slider={RestaurantChain} style={`w-32 h-32`} /> */}
+        {RestaurantOnline?.length === 0 && <h2>No Restaurant Found</h2>}
       </div>
       <Apk
         title={title}
