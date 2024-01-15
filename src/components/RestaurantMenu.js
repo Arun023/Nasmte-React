@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IMG_CDN_URL } from "../config";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { HiOutlineCurrencyRupee } from "react-icons/hi2";
@@ -21,7 +21,16 @@ const RestaurantMenu = () => {
       "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
   );
 
-  console.log(categories);
+  const multi = (a, b) => {
+    let ans = a + b;
+    console.log("ans");
+    return ans;
+  };
+
+  const [answer, answer2] = useMemo(() => [multi(2, 3), multi(5, 6)], []);
+
+  console.log({ answer, answer2 });
+
   if (!Data) return <Shimmer />;
   return (
     <div className="max-w-4xl px-md-0 px-10 mx-auto my-20 flex flex-col gap-5">

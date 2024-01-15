@@ -15,7 +15,6 @@ const Section = ({ id, title, desc, activeIndex, setActiveIndex }) => {
 
 const About = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-
   return (
     <div className="relative">
       <Section

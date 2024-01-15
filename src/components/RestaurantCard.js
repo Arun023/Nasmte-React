@@ -21,10 +21,10 @@ const RestaurantCard = ({ data }) => {
       to={`/restaurant/${id}${latitude ? "/" : ""}${latitude ? latitude : ""}${
         langitude ? "/" : ""
       }${langitude ? langitude : ""}`}
-      className="flex flex-col relative hover:scale-90 duration-200">
+      className="flex flex-col relative w-full hover:scale-95 duration-200">
       <img
         src={`${IMG_CDN_URL}/${cloudinaryImageId}`}
-        className="w-80 h-52 object-cover rounded-2xl"
+        className="w-96 h-52 object-cover rounded-2xl"
         alt=""
       />
       {aggregatedDiscountInfoV3 && (
@@ -58,8 +58,10 @@ const RestaurantCard = ({ data }) => {
 export const isNewlyOpen = (RestaurantCard) => {
   return ({ data }) => {
     return (
-      <div>
-        <span>Veg</span>
+      <div className="relative">
+        <span className="absolute top-0 text-xl z-10 bg-green-500 text-white px-3 py-2">
+          Veg
+        </span>
         <RestaurantCard data={data} />
       </div>
     );

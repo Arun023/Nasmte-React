@@ -24,7 +24,7 @@ const Header = () => {
   console.log({ name, email });
   return (
     <>
-      <header className="flex shadow-xl py-5 sticky z-10 top-0 bg-slate-100 px-24 justify-between items-center">
+      <header className="flex z-40 shadow-xl py-5 sticky top-0 bg-slate-100 px-24 justify-between items-center">
         <Title />
         <div className="nav-items hidden md:block">
           <ul>
@@ -61,7 +61,7 @@ const Header = () => {
         </div>
       </header>
 
-      <div className="relative z-50">
+      <div className="relative z-50 md:hidden">
         <aside
           className={`fixed left-0 bottom-0-0 flex-shrink-0 w-64 ${
             mobileView ? "flex " : "fixed -ml-64"
