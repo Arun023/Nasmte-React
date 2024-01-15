@@ -1,7 +1,10 @@
-import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-const RestaurantCategory = (props) => {
-  const { itemCards, title, setCurrentIndex, currentIndex } = props;
+const RestaurantCategory = ({
+  itemCards,
+  title,
+  setCurrentIndex,
+  currentIndex,
+}) => {
   return (
     <div
       className="my-4 cursor-pointer"
