@@ -6,6 +6,10 @@ const ResturantSlider = ({ slider, style }) => {
   const slideRef = useRef(null);
   const [slideWidths, setSlideWidth] = useState(0);
   const NewlyOpenRestaurant = isNewlyOpen(RestaurantCard);
+  const itemsPerClick = 3.5;
+  const minItemsToShow = 6;
+  const itemWidth = 200;
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNextClick = () => {
     if (slidesContainerRef.current) {
@@ -56,15 +60,14 @@ const ResturantSlider = ({ slider, style }) => {
           {slider?.map((data, index) => {
             return data.info?.veg ? (
               <div
+                key={data.info.id}
                 ref={slideRef}
                 className={`w-96 object-cover slide flex-shrink-0 snap-center rounded overflow-hidden `}>
-                <NewlyOpenRestaurant
-                  data={{ ...data.info }}
-                  key={data.info.id}
-                />
+                <NewlyOpenRestaurant data={{ ...data.info }} />
               </div>
             ) : (
               <div
+                key={data.info.id}
                 ref={slideRef}
                 className={`w-96 object-cover slide flex-shrink-0 snap-center rounded overflow-hidden `}>
                 <RestaurantCard data={{ ...data.info }} key={data.info.id} />

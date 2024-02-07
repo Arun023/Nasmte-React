@@ -3,16 +3,18 @@ import Header from "./components/Header.js";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
 import { Outlet } from "react-router-dom";
-import About from "./components/About";
-import ContactForm from "./components/ContactForm";
+import { Provider } from "react-redux";
+import store from "./redux/store.js";
 
 const AppLayout = () => {
   return (
-    <div>
-      <Header />
-      <Outlet />
-      <Footer />
-    </div>
+    <Provider store={store}>
+      <div>
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
+    </Provider>
   );
 };
 

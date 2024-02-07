@@ -44,13 +44,13 @@ const RestaurantCard = ({ data }) => {
         </div>
         <div className="flex gap-1">
           <span>•</span>
-          {sla.slaString}
+          {sla?.slaString}
         </div>
       </div>
       <div className="font-light text-gray-700">
-        {cuisines.slice(0, 3).join(", ")}
+        {cuisines?.slice(0, 3).join(", ")}
       </div>
-      <div className="font-light text-gray-700">{areaName.slice(0, 31)}</div>
+      <div className="font-light text-gray-700">{areaName?.slice(0, 31)}</div>
     </Link>
   );
 };

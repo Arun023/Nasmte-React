@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import Logo from "./../../assets/swiggy-1.svg";
 import { Link } from "react-router-dom";
 import { IMG_CDN_URL } from "../config";
@@ -7,7 +8,7 @@ import { TbDiscount } from "react-icons/tb";
 import { GrContactInfo } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { ImCross } from "react-icons/im";
+import { BsCart } from "react-icons/bs";
 import UserContext from "../utils/UserContext";
 const Title = () => (
   <Link to="/">
@@ -20,8 +21,12 @@ const Header = () => {
   const [mobileView, setMobileView] = useState(false);
   const LoggedUser = () => setLogged(!Logged);
 
+  const state = useSelector((state) => state.cart.items);
+
+  console.log(state);
+
   const { name, email } = useContext(UserContext);
-  console.log({ name, email });
+  // console.log({ name, email });
   return (
     <>
       <header className="flex z-40 shadow-xl py-5 sticky top-0 bg-slate-100 px-24 justify-between items-center">
@@ -41,8 +46,8 @@ const Header = () => {
               <Link to="/contact">Help</Link>
             </li>
             <li className="flex items-center gap-3">
-              <FaRegUser size={20} color />
-              Cart
+              <BsCart size={20} />
+              <Link to="/cart"> Cart - {state?.length} Items</Link>
             </li>
             {Logged ? (
               <button onClick={LoggedUser}>Logout</button>
@@ -77,7 +82,10 @@ const Header = () => {
             <Link onClick={() => setMobileView(!mobileView)} to="/contact">
               Help
             </Link>
-            <div>Cart</div>
+            <div></div>
+            <Link onClick={() => setMobileView(!mobileView)} to="/cart">
+              Cart
+            </Link>
             {Logged ? (
               <div onClick={LoggedUser}>Logout</div>
             ) : (
