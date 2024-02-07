@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { IMG_CDN_URL } from "../config";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { HiOutlineCurrencyRupee } from "react-icons/hi2";
@@ -8,6 +8,7 @@ import { useFetch } from "../utils/useFetch";
 import Shimmer from "./Shimmer";
 import RestaurantCategory from "./RestaurantCategory";
 const RestaurantMenu = () => {
+  const scroll = useRef(null);
   const [currentIndex, setCurrentIndex] = useState("");
   const { id, latitude, langitude } = useParams();
   const restData = useFetch(id, latitude, langitude);
@@ -18,25 +19,34 @@ const RestaurantMenu = () => {
   const categories = groupedCards?.filter(
     (ele) =>
       ele.card.card?.["@type"] ===
-      "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" ||
+      ele.card.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory"
   );
 
-  const multi = (a, b) => {
-    let ans = a + b;
-    console.log("ans");
-    return ans;
-  };
+  useEffect(() => {
+    const scrollToBottom = () => {
+      scroll.current.scrollIntoView({
+        behavior: "smooth",
+        postion: "top",
+      });
+    };
+    if (scroll.current) {
+      scrollToBottom();
+    }
+  }, [scroll]);
 
-  const [answer, answer2] = useMemo(() => [multi(2, 3), multi(5, 6)], []);
-
-  console.log({ answer, answer2 });
+  console.log(Data);
 
   if (!Data) return <Shimmer />;
+  if (!OfferData) return <Shimmer />;
+  if (!categories) return <Shimmer />;
+
   return (
-    <div className="max-w-4xl px-md-0 px-10 mx-auto my-20 flex flex-col gap-5">
+    <div className="max-w-4xl px-md-0 px-10 mx-auto my-20 flex flex-col gap-5 bg-slate-50">
       {Data !== undefined && (
         <>
-          <div className="flex justify-between flex-wrap">
+          <div ref={scroll} className="flex justify-between flex-wrap">
             <div>
               <div className="text-sm md:text-xl font-bold text-gray-700">
                 {Data?.info?.name}
@@ -78,7 +88,9 @@ const RestaurantMenu = () => {
       <div className="flex overflow-x-scroll gap-10 no-scrollbar scroll-smooth">
         {OfferData?.gridElements?.infoWithStyle?.offers?.map((data) => {
           return (
-            <div className="flex border border-gray-200 p-2">
+            <div
+              key={data?.info?.id}
+              className="flex border border-gray-200 p-2">
               {data?.info?.offerTag && (
                 <p className="font-semibold border-r border-r-slate-200  py-2 px-3 inline text-[10px] write ">
                   {data?.info?.offerTag}
@@ -112,6 +124,7 @@ const RestaurantMenu = () => {
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
             key={ele?.car?.card?.title}
+            restaurant={Data}
           />
         );
       })}

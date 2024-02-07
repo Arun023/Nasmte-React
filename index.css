@@ -5,6 +5,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+
 }
 /* .header {
   display: flex;
@@ -19,7 +20,8 @@
   list-style-type: none;
   display: flex;
 }
-.nav-items > ul > li,.nav-items > ul > a {
+.nav-items > ul > li,
+.nav-items > ul > a {
   padding: 10px;
 }
 /* .logo {
@@ -48,7 +50,7 @@
   aspect-ratio: 3/2;
 }
 
-.flex{
+.flex {
   display: flex;
 }
 
@@ -73,7 +75,7 @@
 }
 
 .coupon__background {
- background:  linear-gradient(rgba(27, 30, 36, 0) 0%, rgb(27, 30, 36) 84.21%);
+  background: linear-gradient(rgba(27, 30, 36, 0) 0%, rgb(27, 30, 36) 84.21%);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -83,11 +85,44 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .write {
   writing-mode: vertical-lr;
 }
 
+.veg,
+.nonveg {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid green;
+}
+.nonveg {
+  border: 2px solid #e43b4f;
+}
+
+.veg::after,
+.nonveg::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(16, 105, 16);
+}
+.nonveg::after {
+  background-color: #e43b4f;
+}
+
+.addCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}

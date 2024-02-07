@@ -7,6 +7,7 @@ import Search from "./components/Search";
 // import ContactForm from "./components/ContactForm";
 import Body from "./components/Body";
 import RestaurantMenu from "./components/RestaurantMenu";
+import CartPage from "./components/CartPage";
 // const AppLayout = lazy(() => import("./AppLayout"));
 const About = lazy(() => import("./components/About"));
 const ContactForm = lazy(() => import("./components/ContactForm"));
@@ -24,6 +25,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
       },
       {
         path: "/about",
