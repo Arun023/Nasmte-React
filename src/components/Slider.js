@@ -438,14 +438,14 @@ const CategorySlider = ({ style, slider, data }) => {
           </div>
         </div>
       )}
-      <div className="flex px-4 flex-col gap-20">
+      {/* <div className="flex px-4 flex-col gap-20">
         <Skeleton className="bg-slate-200 h-7 w-48" />
         <div className="flex  gap-5">
           {Array.from({ length: 8 }).map((_, key) => (
             <Skeleton key={key} className="bg-slate-200 h-36 w-36" />
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
